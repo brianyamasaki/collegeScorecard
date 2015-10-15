@@ -1,0 +1,56 @@
+div#schoolsPage
+  h1 Find Schools
+  p Search for the schools you're interested in on this page. When you find them, click the checkbox for the schools you want to research.
+
+  div.row
+    div.col-md-8
+      h3.text-center Search for schools
+      ul.search
+        li(ng-repeat="rule in searchRules")
+          input.check(type="checkbox", ng-model="rule.active")
+          span(ng-repeat="field in rule.fields track by $index")
+            label {{field.label}}
+            span(ng-if="!field.range&&field.fieldType!=='select'")
+              input(type="{{field.fieldType}}", ng-model="field.value", placeholder="{{field.label}}")
+            span(ng-if="!field.range&&field.fieldType==='select'")
+              select(ng-model="field.value", ng-options="item.value as item.label for item in field.options")
+            span(ng-if="field.range")
+              | from
+              input(type="{{field.fieldType}}", ng-model="field.valueMin", placeholder="minimum")
+              | to
+              input(type="{{field.fieldType}}", ng-model="field.valueMax", placeholder="maximum")
+      button.search(ng-click="doSearch()") Find Schools
+    div.col-md-4
+      h3.text-center Selected Schools
+      selected-schools-directive
+
+
+  div
+    h3 Results
+    div#result-header.row
+      div.col-sm-3
+        label {{search.totalFound}} results found
+      div.col-sm-3
+        label Items per page&nbsp;
+        select(ng-model="search.perPageCur" ng-options="item for item in perPageValues")
+      div.col-sm-6.text-right Page&nbsp;
+        input(type="number", ng-model="search.pageCur", min="1", max="{{search.totalPages}}")
+        | of {{search.totalPages}} Pages
+    div#table-container
+      table.table
+        thead
+          tr
+            td.item-index #
+            td.text-center Select
+            td.text-center School Name
+            td.text-right # of Students
+        tbody
+          tr(ng-repeat="school in schools")
+            td.item-index {{ ((search.pageCur-1) * search.perPageCur) + $index + 1 }}
+            td.text-center
+              input(type="checkbox", ng-model="school.selected", ng-click="clickSchoolCheckbox($index)")
+            td
+              a(href="http://{{school['school.school_url']}}", target="_blank") {{school["school.name"]}}
+            td.text-right {{school["2013.student.size"]}}
+    p Sort By
+      select(ng-model="sort", ng-options="item.dbLabel as item.label for item in sortList")

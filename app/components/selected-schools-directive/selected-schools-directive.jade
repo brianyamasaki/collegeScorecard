@@ -1,0 +1,3 @@
+ul.selected-schools-directive
+  li(ng-repeat="school in selectedSchools.list")
+    a(href="http://{{school['school.school_url']}}", target="_blank") {{school["school.name"]}}
