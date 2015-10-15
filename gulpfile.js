@@ -23,7 +23,7 @@ var app = {
   copy: {
     index: ['app/index.html', 'app/.htaccess'],
     img: ['app/img/**/*.jpg', 'client/app/img/**/*.png'],
-    fonts: ['app/bower_components/bootstrap/dist/fonts/*'],
+    fonts: ['app/bower_components/bootstrap/fonts/*'],
     partials: ['app/*.html', 'app/*/*.html']
   },
   jadeSrc: [

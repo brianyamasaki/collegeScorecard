@@ -20,37 +20,40 @@ div#schoolsPage
               | to
               input(type="{{field.fieldType}}", ng-model="field.valueMax", placeholder="maximum")
       button.search(ng-click="doSearch()") Find Schools
+      div
+        h3 Results
+        div#result-header.row
+          div.col-sm-6
+            label {{search.totalFound}} results found
+          div.col-sm-6.text-right
+            label Items per page&nbsp;
+            select(ng-model="search.perPageCur" ng-options="item for item in perPageValues")
+        div#table-container
+          table.table
+            thead
+              tr
+                td.item-index #
+                td.text-center Select
+                td.text-center School Name
+                td.text-right # of Students
+            tbody
+              tr(ng-repeat="school in schools")
+                td.item-index {{ ((search.pageCur-1) * search.perPageCur) + $index + 1 }}
+                td.text-center
+                  input(type="checkbox", ng-model="school.selected", ng-click="clickSchoolCheckbox($index)")
+                td
+                  a(href="http://{{school['school.school_url']}}", target="_blank") {{school["school.name"]}}
+                td.text-right {{school["2013.student.size"]}}
+        div#result-footer
+          div.col-sm-6 Sort By
+            select(ng-model="sort", ng-options="item.dbLabel as item.label for item in sortList")
+          div.col-sm-6.text-right Page&nbsp;
+            input(type="number", ng-model="search.pageCur", min="1", max="{{search.totalPages}}")
+            | of {{search.totalPages}} Pages
+
     div.col-md-4
-      h3.text-center Selected Schools
-      selected-schools-directive
-
-
-  div
-    h3 Results
-    div#result-header.row
-      div.col-sm-3
-        label {{search.totalFound}} results found
-      div.col-sm-3
-        label Items per page&nbsp;
-        select(ng-model="search.perPageCur" ng-options="item for item in perPageValues")
-      div.col-sm-6.text-right Page&nbsp;
-        input(type="number", ng-model="search.pageCur", min="1", max="{{search.totalPages}}")
-        | of {{search.totalPages}} Pages
-    div#table-container
-      table.table
-        thead
-          tr
-            td.item-index #
-            td.text-center Select
-            td.text-center School Name
-            td.text-right # of Students
-        tbody
-          tr(ng-repeat="school in schools")
-            td.item-index {{ ((search.pageCur-1) * search.perPageCur) + $index + 1 }}
-            td.text-center
-              input(type="checkbox", ng-model="school.selected", ng-click="clickSchoolCheckbox($index)")
-            td
-              a(href="http://{{school['school.school_url']}}", target="_blank") {{school["school.name"]}}
-            td.text-right {{school["2013.student.size"]}}
-    p Sort By
-      select(ng-model="sort", ng-options="item.dbLabel as item.label for item in sortList")
+        h3.text-center Selected Schools
+        selected-schools-directive
+        p.text-center
+          a.btn.btn-primary(href="#/compare", ng-show="selectedSchools.list.length > 1") Compare
+          a.btn.btn-primary(href="#/details", ng-show="selectedSchools.list.length == 1") Details

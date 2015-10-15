@@ -350,7 +350,7 @@ angular.module('collegeScorecard.schools', ['ngRoute', 'collegeScorecard.scoreca
       totalFound: 0
     };
 
-    scope.setupSearchParams = function () {
+    var setupSearchParams = function () {
       var params = {
         _per_page: scope.search.perPageCur,
         _page: scope.search.pageCur - 1,
@@ -382,31 +382,28 @@ angular.module('collegeScorecard.schools', ['ngRoute', 'collegeScorecard.scoreca
 
     scope.doSearch = function () {
 
-      ScorecardDataService.getData(scope.setupSearchParams())
+      ScorecardDataService.getData(setupSearchParams())
         .then(function(result){
           scope.schools = result.results;
           scope.search.totalFound = result.metadata.total;
           scope.search.pageCur = result.metadata.page + 1;
           scope.search.totalPages = Math.ceil(result.metadata.total / result.metadata.per_page);
-          $log.log(result);
+          initSchools();
         })
         .catch(function(result) {
-          $log.log(result);
         });
 
     };
 
-    scope.initSchools = function() {
+
+    var initSchools = function() {
       scope.schools.forEach(function(school) {
-        if (SchoolsListService.isSelectedSchool(school.id)) {
-          school.selected = true;
-        }
+        school.selected = SchoolsListService.isSelectedSchool(school.id);
       });
     };
 
     scope.clickSchoolCheckbox = function (index) {
       SchoolsListService.toggleSelectedSchool(scope.schools[index].id);
-      console.log(SchoolsListService.getSelectedSchools().toString());
     };
 
     scope.$watch('search.perPageCur', function(newValue, oldValue){
@@ -425,5 +422,9 @@ angular.module('collegeScorecard.schools', ['ngRoute', 'collegeScorecard.scoreca
       if (newValue !== oldValue)  {
         scope.doSearch();
       }
+    });
+
+    scope.$on('schoolsListChanged', function() {
+      initSchools();
     });
   }]);

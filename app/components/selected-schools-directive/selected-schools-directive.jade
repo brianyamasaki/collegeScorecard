@@ -1,3 +1,4 @@
 ul.selected-schools-directive
   li(ng-repeat="school in selectedSchools.list")
+    i.glyphicon.glyphicon-remove(ng-click="selectedSchools.removeSchool(school.id)")
     a(href="http://{{school['school.school_url']}}", target="_blank") {{school["school.name"]}}

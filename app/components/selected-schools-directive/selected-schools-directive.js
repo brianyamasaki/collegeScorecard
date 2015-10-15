@@ -11,7 +11,10 @@ angular.module('collegeScorecard.selectedSchoolsDirective', ['collegeScorecard.s
 
           scope.selectedSchools = {
             list: [],
-            };
+            removeSchool: function(i) {
+              SchoolsListService.removeSelectedSchool(i);
+            }
+          };
 
           function getSchoolNames() {
             var parms = {
@@ -27,10 +30,8 @@ angular.module('collegeScorecard.selectedSchoolsDirective', ['collegeScorecard.s
                   scope.selectedSchools.totalFound = result.metadata.total;
                   scope.selectedSchools.pageCur = result.metadata.page + 1;
                   scope.selectedSchools.totalPages = Math.ceil(result.metadata.total / result.metadata.per_page);
-                  $log.log(result);
                 })
                 .catch(function(result) {
-                  $log.log(result);
                 });
             } else {
               scope.selectedSchools.list = [];
@@ -39,11 +40,17 @@ angular.module('collegeScorecard.selectedSchoolsDirective', ['collegeScorecard.s
               scope.selectedSchools.totalPages = 1;
             }
 
-          };
+          }
 
-          scope.$on('schoolsListChanged', function() {
+          function getSelectedSchools() {
             schoolIds = SchoolsListService.getSelectedSchools();
             getSchoolNames();
+          }
+
+          getSelectedSchools();
+
+          scope.$on('schoolsListChanged', function() {
+            getSelectedSchools();
           });
         }
       };

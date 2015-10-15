@@ -55,7 +55,7 @@ angular.module('collegeScorecard.schoolsListService', [])
       },
       isSelectedSchool: function (id) {
         var idFound = idList.indexOf(id);
-        return idFound !== -1
+        return idFound !== -1;
       },
       getSelectedSchools: function() {
         return angular.copy(idList).sort();

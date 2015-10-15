@@ -7,6 +7,8 @@ angular.module('collegeScorecard', [
   'collegeScorecard.footer',
   'collegeScorecard.home',
   'collegeScorecard.schools',
+  'collegeScorecard.compare',
+  'collegeScorecard.details',
   'collegeScorecard.scorecardDataService',
   'collegeScorecard.selectedSchoolsDirective',
   'collegeScorecard.schoolsListService'
