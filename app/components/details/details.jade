@@ -1,2 +1,42 @@
 div#detailsPage
-  h1 School Details
+  div(ng-hide="schools.list.length===1")
+    h1 School isn't selected
+    p Please go back to find and select a school to look up
+      a(href="#/schools") schools here
+  div(ng-show="schools.list.length===1")
+    h1 Details for {{ schools.list[0]['school.name'] }}
+
+    ul.tabs
+      li(ng-repeat="tab in tabs", ng-click="clickTab($index)", ng-class="classForTab($index)") {{tab.name}}
+
+    div.tabContent(ng-show="0===tabSelected")
+      h3 Overview
+
+      ul
+        li Website:
+          a(href="http://{{ overviewContent.data.school_url }}") {{ overviewContent.data.school_url }}
+        li Number of Students: {{ overviewContent.numberOfStudents }} ({{ overviewContent.latestAnnualData }} data)
+        li City and State: {{overviewContent.data.city}}, {{overviewContent.data.state}}
+        li Institution Ownership: {{overviewContent.ownership}}
+        li Highest Degrees Awarded: {{overviewContent.highestDegreeAwarded}}
+        li Predominant Degrees Awarded: {{overviewContent.predominantDegreeAwarded}}
+        li Religious Affiliation: {{overviewContent.religious_affiliation }}
+        li Price Calculator Web Page:&nbsp;
+          a(href="http://{{overviewContent.data.price_calculator_url }}") {{overviewContent.data.price_calculator_url}}
+        li(ng-hide="overviewContent.data.online_only==0") Online only
+        li Accreditor: {{ overviewContent.data.accreditor }}
+
+
+  div.tabContent(ng-show="1===tabSelected")
+      h3 Annual facts
+      ul.accordian
+        li(ng-repeat="year in tabData(1)")
+          h4 {{year.year}}
+          div Annual data shows up here
+    div.tabContent(ng-show="2===tabSelected")
+      h3 Location
+
+      p Lattitude: {{ tabData(2, "lat") }} Longitude: {{ tabData(2, "lon") }}
+
+      p
+        a(href="https://www.google.com/maps/place/{{ tabData(2, 'lat') }},{{ tabData(2, 'lon') }}", target="_blank") View Place in Google Maps

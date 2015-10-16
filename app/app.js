@@ -11,7 +11,8 @@ angular.module('collegeScorecard', [
   'collegeScorecard.details',
   'collegeScorecard.scorecardDataService',
   'collegeScorecard.selectedSchoolsDirective',
-  'collegeScorecard.schoolsListService'
+  'collegeScorecard.schoolsListService',
+  'collegeScorecard.schoolDataTranslationService'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/home'});

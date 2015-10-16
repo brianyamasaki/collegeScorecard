@@ -1,0 +1,34 @@
+ul.tabs {
+  padding:0;
+  margin:0;
+  li {
+    display:inline-block;
+    padding:.5em 1em;
+    border: 1px solid black;
+    border-bottom:none;
+    border-radius: 8px 8px 0 0;
+    background: #999999;
+    &.active {
+      background: white;
+    }
+  }
+}
+
+div.tabContent {
+  border: 1px solid black;
+  min-height: 10em;
+  padding: 1em;
+
+  ul.accordian {
+    padding:0;
+    li {
+      list-style:none;
+      h4 {
+        color:white;
+        background: darkblue;
+        padding:.5em;
+        margin:0;
+      }
+    }
+  }
+}
