@@ -92,7 +92,125 @@ angular.module('collegeScorecard.schoolDataTranslationService', [])
           'Public',
           'Private nonprofit',
           'Private for-profit'
-        ];
+        ],
+        carnegieClass = [
+          'Not classified',
+          'Associate\'s--Public Rural-serving Small',
+          'Associate\'s--Public Rural-serving Medium',
+          'Associate\'s--Public Rural-serving Large',
+          'Associate\'s--Public Suburban-serving Single Campus',
+          'Associate\'s--Public Suburban-serving Multicampus',
+          'Associate\'s--Public Urban-serving Single Campus',
+          'Associate\'s--Public Urban-serving Multicampus',
+          'Associate\'s--Public Special Use',
+          'Associate\'s--Private Not-for-profit',
+          'Associate\'s--Private For-profit',
+          'Associate\'s--Public 2-year colleges under 4-year universities',
+          'Associate\'s--Public 4-year Primarily Associate\'s',
+          'Associate\'s--Private Not-for-profit 4-year Primarily Associate\'s',
+          'Associate\'s--Private For-profit 4-year Primarily Associate\'s',
+          'Research Universities (very high research activity)',
+          'Research Universities (high research activity)',
+          'Doctoral/Research Universities',
+          'Master\'s Colleges and Universities (larger programs)',
+          'Master\'s Colleges and Universities (medium programs)',
+          'Master\'s Colleges and Universities (smaller programs)',
+          'Baccalaureate Colleges--Arts & Sciences',
+          'Baccalaureate Colleges--Diverse Fields',
+          'Baccalaureate/Associate\'s Colleges',
+          'Special Focus Institutions--Theological seminaries, Bible colleges, and other faith-related institutions',
+          'Special Focus Institutions--Medical schools and medical centers',
+          'Special Focus Institutions--Other health professions schools',
+          'Special Focus Institutions--Schools of engineering',
+          'Special Focus Institutions--Other technology-related schools',
+          'Special Focus Institutions--Schools of business and management',
+          'Special Focus Institutions--Schools of art, music, and design',
+          'Special Focus Institutions--Schools of law',
+          'Special Focus Institutions--Other special-focus institutions',
+          'Tribal Colleges'
+        ],
+        ethnicity = {
+          'aian': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native',
+            short: 'American Indian / Alaska Native'
+          },
+          'aian_2000': {
+            long: 'Total share of enrollment of undergraduate students who are American Indian/Alaska Native',
+            short: 'American Indian / Alaska Native'
+          },
+          'aian_prior_2009': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are American Indian/Alaska Native',
+            short: 'American Indian / Alaska Native'
+          },
+          'api_2000': {
+            long: 'Total share of enrollment of undergraduate students who are Asian/Pacific Islander',
+            short: 'Asian/Pacific Islander'
+          },
+          'asian': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are Asian',
+            short: 'Asian'
+          },
+          'asian_pacific_islander': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are Asian/Pacific Islander',
+            short: 'Asian/Pacific Islander'
+          },
+          'black': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are black',
+            short: 'Black'
+          },
+          'black_2000': {
+            long: 'Total share of enrollment of undergraduate students who are black non-Hispanic',
+            short: 'Black (non-Hispanic)'
+          },
+          'black_non_hispanic': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are black non-Hispanic',
+            short: 'Black (non-Hispanic)'
+          },
+          'hispanic': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are Hispanic',
+            short: 'Hispanic'
+          },
+          'hispanic_2000': {
+            long: 'Total share of enrollment of undergraduate students who are Hispanic',
+            short: 'Hispanic'
+          },
+          'hispanic_prior_2009': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are Hispanic',
+            short: 'Hispanic'
+          },
+          'nhpi': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are Native Hawaiian/Pacific Islander',
+            short: 'Native Hawaiian/Pacific Islander'
+          },
+          'non_resident_alien': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are non-resident aliens',
+            short: 'Non-resident Alien'
+          },
+          'two_or_more': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are two or more races',
+            short: 'Two or more races'
+          },
+          'unknown': {
+            long: 'Total share of enrollment of undergraduate students whose race is unknown',
+            short: 'Unknown'
+          },
+          'unknown_2000': {
+            long: 'Total share of enrollment of undergraduate students whose race is unknown',
+            short: 'Unknown'
+          },
+          'white': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are White',
+            short: 'White'
+          },
+          'white_2000': {
+            long: 'Total share of enrollment of undergraduate students who are white non-Hispanic',
+            short: 'White (non-Hispanic)'
+          },
+          'white_non_hispanic': {
+            long: 'Total share of enrollment of undergraduate degree-seeking students who are white non-Hispanic',
+            short: 'White (non-Hispanic)'
+          }
+        };
       return {
         translateReligiousAffiliation: function (dbValue) {
           return religiousAffiliation[dbValue];
@@ -105,6 +223,29 @@ angular.module('collegeScorecard.schoolDataTranslationService', [])
         },
         translateOwnership: function(dbValue) {
           return ownership[dbValue];
+        },
+        translateCarnegieClassification: function(dbValue) {
+          return carnegieClass[dbValue];
+        },
+        translateRacialEthnicity: function(race_ethnicity) {
+          var retArray = [],
+            item;
+          for (var key in race_ethnicity) {
+            if (race_ethnicity[key]) {
+              item = ethnicity[key];
+              if (item) {
+                retArray.push({
+                  dbName: key,
+                  longString: item.long,
+                  shortString: item.short ,
+                  value: race_ethnicity[key]
+                });
+              } else {
+                console.error('cannot find ' + key);
+              }
+            }
+          }
+          return retArray;
         }
       };
     }]);

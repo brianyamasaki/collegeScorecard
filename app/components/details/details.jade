@@ -15,9 +15,9 @@ div#detailsPage
       ul
         li Website:
           a(href="http://{{ overviewContent.data.school_url }}") {{ overviewContent.data.school_url }}
-        li Number of Students: {{ overviewContent.numberOfStudents }} ({{ overviewContent.latestAnnualData }} data)
+        li Number of Students: {{ overviewContent.numberOfStudents | number }} ({{ overviewContent.latestAnnualData }} data)
         li City and State: {{overviewContent.data.city}}, {{overviewContent.data.state}}
-        li Institution Ownership: {{overviewContent.ownership}}
+        li Basic Carnegie Classification: {{overviewContent.carnegieClassification}}
         li Highest Degrees Awarded: {{overviewContent.highestDegreeAwarded}}
         li Predominant Degrees Awarded: {{overviewContent.predominantDegreeAwarded}}
         li Religious Affiliation: {{overviewContent.religious_affiliation }}
@@ -27,16 +27,48 @@ div#detailsPage
         li Accreditor: {{ overviewContent.data.accreditor }}
 
 
-  div.tabContent(ng-show="1===tabSelected")
+    div.tabContent(ng-show="1===tabSelected")
       h3 Annual facts
-      ul.accordian
-        li(ng-repeat="year in tabData(1)")
-          h4 {{year.year}}
-          div Annual data shows up here
+      uib-accordion(close-others="false")
+        uib-accordion-group(ng-repeat="year in tabData(1)", heading="{{ year.year}}")
+          h4 Admissions
+          ul
+            li Overall Admission Rate: {{year.admissions.admission_rate.overall * 100 | number}}%
+              span(ng-show="year.admissions.admission_rate.overall != year.admissions.admission_rate.by_ope_id") of {{year.admissions.admission_rate.by_ope_id * 100 | number}}%
+            li SAT Overall (average): {{year.admissions.sat_scores.average.overall}}
+              span(ng-show="year.admissions.sat_scores.average.overall != year.admissions.sat_scores.average.by_ope_id") of {{year.admissions.sat_scores.average.by_ope_id}}
+            li SAT Math (25th, 50th, 7th percentile): {{year.admissions.sat_scores['25th_percentile'].math}}, {{year.admissions.sat_scores.midpoint.math}}, {{year.admissions.sat_scores['75th_percentile'].math}}
+            li SAT Critical Reading (25th, 50th, 7th percentile): {{year.admissions.sat_scores['25th_percentile'].critical_reading}}, {{year.admissions.sat_scores.midpoint.critical_reading}}, {{year.admissions.sat_scores['75th_percentile'].critical_reading}}
+            li SAT Writing (25th, 50th, 7th percentile): {{year.admissions.sat_scores['25th_percentile'].writing}}, {{year.admissions.sat_scores.midpoint.writing}}, {{year.admissions.sat_scores['75th_percentile'].writing}}
+          h4 Cost
+          ul
+            li Listed Tuition: ${{year.cost.tuition.out_of_state | number}}&nbsp;
+              span(ng-show="year.cost.tuition.out_of_state != year.cost.tuition.in_state") (${{year.cost.tuition.in_state | number}} if state resident)
+            li Average Net Price: ${{year.cost.avg_net_price.overall | number}}
+            li Net Price by Income Range
+              table.table
+                tr
+                  th.text-center $30,000 and Under
+                  th.text-center $30,001 to $48,000
+                  th.text-center $48,001 to $75,000
+                  th.text-center $75,001 to $110,000
+                  th.text-center $110,001 and Above
+                tr
+                  td.text-center ${{year.cost.net_price.overall['0-30000'] | number}}
+                  td.text-center ${{year.cost.net_price.overall['30001-48000'] | number}}
+                  td.text-center ${{year.cost.net_price.overall['48001-75000'] | number}}
+                  td.text-center ${{year.cost.net_price.overall['75001-110000'] | number}}
+                  td.text-center ${{year.cost.net_price.overall['110001-plus'] | number}}
+          h4 Students
+          ul
+            li
+              h3 Racial Diversity
+              ul(ng-repeat="item in year.race_ethnicity")
+                li {{item.shortString}}: {{item.value * 100}}%
     div.tabContent(ng-show="2===tabSelected")
       h3 Location
 
-      p Lattitude: {{ tabData(2, "lat") }} Longitude: {{ tabData(2, "lon") }}
+      p Latitude: {{ tabData(2, "lat") }} Longitude: {{ tabData(2, "lon") }}
 
-      p
-        a(href="https://www.google.com/maps/place/{{ tabData(2, 'lat') }},{{ tabData(2, 'lon') }}", target="_blank") View Place in Google Maps
+      p(ng-show="tabData(2, 'lat')!= 0")
+        a(href="https://www.google.com/maps/place/{{ encodeSchoolName() }}/{{ tabData(2, 'lat') }},{{ tabData(2, 'lon') }}", target="_blank") View Place in Google Maps

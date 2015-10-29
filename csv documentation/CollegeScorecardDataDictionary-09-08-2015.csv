@@ -528,7 +528,7 @@ Certificate of at least one but less than two academic years in History.,academi
 Associate degree in History.,academics,program.assoc.history,integer,CIP54ASSOC,,,IPEDS,
 Award of more than two but less than four academic years in History.,academics,program.certificate_lt_4_yr.history,integer,CIP54CERT4,,,IPEDS,
 Bachelor's degree in History.,academics,program.bachelors.history,integer,CIP54BACHL,,,IPEDS,
-Flag for distance-education-only education,school,online_only,integer,DISTANCEONLY,0,Not distance-education only,IPEDS,
+Flag for distance-education-only education,scTotal share of enrollment of undergraduate degree-seeking students who are two or more racehool,online_only,integer,DISTANCEONLY,0,Not distance-education only,IPEDS,
 ,,,,,1,Distance-education only,,
 Enrollment of undergraduate degree-seeking students,student,size,integer,UGDS, ,,IPEDS,"To be bucketed into size categories (College Navigator: <2k, 2-15k, >15k)"
 Enrollment of all undergraduate students,student,enrollment.all,integer,UG,,,IPEDS,

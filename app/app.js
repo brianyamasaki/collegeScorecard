@@ -3,14 +3,17 @@
 // Declare app level module which depends on views, and components
 angular.module('collegeScorecard', [
   'ngRoute',
+  'ui.bootstrap',
+  'nemLogging',
+  'uiGmapgoogle-maps',
   'collegeScorecard.common',
   'collegeScorecard.footer',
   'collegeScorecard.home',
   'collegeScorecard.schools',
   'collegeScorecard.compare',
   'collegeScorecard.details',
-  'collegeScorecard.scorecardDataService',
   'collegeScorecard.selectedSchoolsDirective',
+  'collegeScorecard.scorecardDataService',
   'collegeScorecard.schoolsListService',
   'collegeScorecard.schoolDataTranslationService'
 ]).

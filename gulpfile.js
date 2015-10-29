@@ -44,8 +44,12 @@ var app = {
     'app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js',
     'app/bower_components/lodash/lodash.js',
     'app/bower_components/jquery/dist/jquery.js',
+    'app/bower_components/d3/d3.js',
     'app/bower_components/angular/angular.js',
-    'app/bower_components/angular-route/angular-route.js'
+    'app/bower_components/angular-route/angular-route.js',
+    'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+    'app/bower_components/angular-simple-logger/dist/angular-simple-logger.js',
+    'app/bower_components/angular-google-maps/dist/angular-google-maps.js'
   ]
 };
 
